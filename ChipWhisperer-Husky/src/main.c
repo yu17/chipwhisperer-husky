@@ -16,6 +16,10 @@
 #include "naeusb_husky.h"
 #include "naeusb_mpsse.h"
 #include "cdci6214.h"
+#if NAEUSB_BLAUTH
+#include "blauth.h"
+#include "blauth_pubkeys.h"
+#endif
 
 //Serial Number - will be read by device ID
 char usb_serial_number[33] = "000000000000DEADBEEF";
@@ -153,6 +157,10 @@ int main(void)
                     PIO_IT_RISE_EDGE, stream_mode_ready_handler);
     pio_disable_interrupt(PIN_EBI_USB_SPARE0_PORT, PIN_EBI_USB_SPARE0_PIN);
     NVIC_EnableIRQ(PIOB_IRQn);
+#if NAEUSB_BLAUTH
+    /* Serial string is final here; blauth derives the device ID from it. */
+    blauth_init(BLAUTH_PUBKEYS, BLAUTH_NUM_KEYS);
+#endif
     udc_start();
 
     ui_init();
@@ -161,8 +169,14 @@ int main(void)
     openadc_register_handlers();
     husky_register_handlers();
 	mpsse_register_handlers();
+#if NAEUSB_BLAUTH
+    blauth_register_handlers();     /* last = highest priority in the chain */
+#endif
 
 	while (true) {
+#if NAEUSB_BLAUTH
+        blauth_task();              /* signature checks run here, never in the USB interrupt */
+#endif
         if (current_transfer_len == 0) {
             MPSSE_main_sendrecv_byte();
         }
