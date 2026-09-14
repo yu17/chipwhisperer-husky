@@ -90,7 +90,7 @@ extern char usb_serial_number[33];
 #define  USB_DEVICE_PRODUCT_NAME          "ChipWhisperer Husky"
 #define FW_VER_MAJOR 1
 #define FW_VER_MINOR 8
-#define FW_VER_DEBUG 0
+#define FW_VER_DEBUG 1   /* CloudWhisperer build: bootloader-entry authentication */
 #define  USB_DEVICE_PRODUCT_ID            0xACE5
 #elif ChipWhisperer_Husky_Plus
 #define  USB_DEVICE_PRODUCT_NAME          "ChipWhisperer Husky Plus"

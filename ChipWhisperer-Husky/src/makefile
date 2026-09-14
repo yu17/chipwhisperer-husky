@@ -45,5 +45,14 @@ LINKERFILE = naeusb/flash_sam3u4.ld
 # -----------------------------------------------------------------------------
 OPT=2
 
+# Bootloader-entry authentication (CloudWhisperer). BLAUTH=0 builds the
+# stock behaviour; the public keys come from blauth_pubkeys.h.
+BLAUTH ?= 1
+ifeq ($(BLAUTH),1)
+CFLAGS += -DNAEUSB_BLAUTH=1 -DBLAKE2_NO_UNROLLING
+SRC += naeusb/blauth.c naeusb/blauth_naeusb.c naeusb/blauth_port_sam3u.c
+SRC += naeusb/monocypher.c naeusb/monocypher-ed25519.c
+endif
+
 include naeusb/makefile.cw
 
