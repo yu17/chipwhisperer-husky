@@ -45,7 +45,7 @@ LINKERFILE = naeusb/flash_sam3u4.ld
 # -----------------------------------------------------------------------------
 OPT=2
 
-# Bootloader-entry authentication (CloudWhisperer). BLAUTH=0 builds the
+# Bootloader-entry authentication (WhispCloud). BLAUTH=0 builds the
 # stock behaviour; the public keys come from blauth_pubkeys.h.
 BLAUTH ?= 1
 ifeq ($(BLAUTH),1)
