@@ -4,3 +4,8 @@
 [submodule "chipwhisperer-husky-fpga"]
 	path = chipwhisperer-husky-fpga
 	url = https://github.com/newaetech/chipwhisperer-husky-fpga
+	# The FPGA sources are several GB and are not needed to build the SAM3U
+	# image, which is all WhispCloud uses this fork for. `update = none` keeps
+	# `git submodule update --recursive` from pulling them on every install.
+	# Override with `git submodule update --checkout chipwhisperer-husky-fpga`.
+	update = none
